@@ -42,7 +42,7 @@ export default function Sidebar() {
 <div
   className="absolute"
   style={{
-    top: '45rem',       // vertical position — change to move up/down
+    top: '0rem',      // vertical position — change to move up/down
     left: '4rem',       // horizontal position — change to move left/right
     width: '15rem',     // button width — adjust as needed
   }}
