@@ -1,9 +1,8 @@
 import { Home, Search, Bell, Flame, Menu, MessageCircle } from "lucide-react";
-
 const Item = ({ icon: Icon, label }: { icon: any; label: string }) => (
   <div className="flex items-center gap-[1rem] cursor-pointer hover:text-gray-700">
     <Icon className="w-6 h-6" />
-    <span className="text-lg font-inter">{label}</span>
+    <span className="text-lg font-poppins">{label}</span>
   </div>
 );
 

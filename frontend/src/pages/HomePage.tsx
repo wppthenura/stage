@@ -6,7 +6,7 @@ const HomePage = () => {
   return (
     <div className="flex bg-gray-50 min-h-screen">
       {/* Left Sidebar */}
-      <aside className="w-[18%] border-r border-gray-200 bg-white">
+      <aside className="w-[18%] bg-white">
         <Sidebar />
       </aside>
 
