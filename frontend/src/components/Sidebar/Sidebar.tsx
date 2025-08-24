@@ -14,8 +14,8 @@ export default function Sidebar() {
       <div
         className="absolute"
         style={{
-          top: '1rem', // adjust vertical
-          left: '1rem', // adjust horizontal
+          top: '2.5rem', // adjust vertical
+          left: '3.5rem', // adjust horizontal
         }}
       >
         <div className="font-[Carattere] text-[3rem] italic">Stage</div>
@@ -25,8 +25,8 @@ export default function Sidebar() {
       <div
         className="absolute"
         style={{
-          top: '17rem', // adjust vertical
-          left: '1rem', // adjust horizontal
+          top: '10rem', // adjust vertical
+          left: '3rem', // adjust horizontal
         }}
       >
         <nav className="flex flex-col items-start gap-[2rem] text-[2rem]">
