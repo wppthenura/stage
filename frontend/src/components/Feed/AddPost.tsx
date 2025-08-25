@@ -60,8 +60,8 @@ export default function AddPost({
         alignItems: "center",
         justifyContent: "center",
         gap,
-        cursor: "",
-        transition: `all ${transitionDuration} `,
+        cursor: "pointer",
+        transition: `all ${transitionDuration} ease-in-out`,
       }}
       onMouseEnter={(e) => {
         const target = e.currentTarget as HTMLButtonElement;
