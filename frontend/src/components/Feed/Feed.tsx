@@ -3,21 +3,24 @@ import AddPost from "./AddPost";
 
 export default function Feed() {
   return (
-    <div className="py-10 w-full max-w-xl mx-auto flex flex-col gap-6">
-      {/* Add Post Section */}
-      <AddPost />
+    <div className="flex flex-col items-center w-full">
+      {/* Feed Column */}
+      <div className="flex flex-col items-center w-full max-w-[1050px]">
+        {/* Add Post Section */}
+        <AddPost />
 
-      {/* Example Posts */}
-      <Post
-        username="pulindu.thenura"
-        likes={100}
-        caption="Launch yourself higher"
-      />
-      <Post
-        username="person_2"
-        likes={230}
-        caption="Beautiful day 🌸"
-      />
+        {/* Posts */}
+        <Post
+          username="pulindu.thenura"
+          likes={100}
+          caption="Launch yourself higher"
+        />
+        <Post
+          username="person_2"
+          likes={230}
+          caption="Beautiful day 🌸"
+        />
+      </div>
     </div>
   );
 }

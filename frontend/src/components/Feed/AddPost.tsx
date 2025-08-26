@@ -20,14 +20,15 @@ interface AddPostProps {
   gap?: string;            // e.g., "8px"
   iconSize?: string;       // e.g., "16px"
   label?: string;          // e.g., "Add New Post"
+  marginLeft?: string; // e.g., "20px"
 }
 
 export default function AddPost({
-  width = "100%",
+  width = "1050px",
   height,
   paddingX = "16px",
   paddingY = "12px",
-  borderRadius = "24px",
+  borderRadius = "10px",
   shadow = "0 4px 6px rgba(0,0,0,0.1)",
   border = "1px solid #e5e7eb",
   bgColor = "#fff",
@@ -41,6 +42,7 @@ export default function AddPost({
   gap = "8px",
   iconSize = "16px",
   label = "Add New Post",
+  marginLeft = "0px",
 }: AddPostProps) {
 
   return (
@@ -62,6 +64,7 @@ export default function AddPost({
         gap,
         cursor: "pointer",
         transition: `all ${transitionDuration} ease-in-out`,
+        marginLeft,
       }}
       onMouseEnter={(e) => {
         const target = e.currentTarget as HTMLButtonElement;

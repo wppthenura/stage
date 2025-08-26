@@ -6,19 +6,36 @@ const HomePage = () => {
   return (
     <div className="flex bg-gray-50 min-h-screen">
       {/* Left Sidebar */}
-      <aside className="w-[18%] bg-white">
+      <aside
+        className="bg-white"
+        style={{
+          width: "18rem",   // ⬅️ adjust sidebar width
+          marginLeft: "2rem", // ⬅️ push it right
+        }}
+      >
         <Sidebar />
       </aside>
 
       {/* Feed */}
-      <main className="flex-1 flex justify-center bg-gray-50">
-        <div className="w-[600px] max-w-full">
-          <Feed />
-        </div>
+      <main
+        className="bg-gray-50"
+        style={{
+          width: "38rem",     // ⬅️ feed width
+          marginLeft: "20rem", // ⬅️ spacing from left sidebar
+          marginRight: "4rem", // ⬅️ spacing from right sidebar
+        }}
+      >
+        <Feed />
       </main>
 
       {/* Right Sidebar */}
-      <aside className="w-[25%] border-l border-gray-200 bg-white p-4 hidden lg:block">
+      <aside
+        className="border-l border-gray-200 bg-white p-4 hidden lg:block"
+        style={{
+          width: "20rem",     // ⬅️ right sidebar width
+          marginRight: "2rem", // ⬅️ push inward from edge
+        }}
+      >
         <Rightbar />
       </aside>
     </div>
