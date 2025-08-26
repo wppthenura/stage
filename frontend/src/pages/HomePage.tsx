@@ -30,10 +30,11 @@ const HomePage = () => {
 
       {/* Right Sidebar */}
       <aside
-        className="border-l border-gray-200 bg-white p-4 hidden lg:block"
+        className="bg-white p-4 lg:block"
         style={{
           width: "20rem",     // ⬅️ right sidebar width
-          marginRight: "2rem", // ⬅️ push inward from edge
+          marginLeft: "15rem", // ⬅️ spacing from feed/
+          marginRight: "0rem", // ⬅️ push inward from edge
         }}
       >
         <Rightbar />
