@@ -37,38 +37,42 @@ export default function Sidebar() {
         </nav>
       </div>
 
-      {/* Messages Button */}
+{/* Messages Button */}
 <div
   className="absolute"
   style={{
-    top: '45rem',       // vertical position — change to move up/down
-    left: '4rem',       // horizontal position — change to move left/right
-    width: '15rem',     // button width — adjust as needed
+    top: '35rem',       // vertical position — change to move up/down
+    left: '2rem',       // horizontal position — adjust for wider button
+    width: '18rem',     // increased width
   }}
 >
   <button
-    className="flex items-center justify-center gap-2 py-5 rounded-full border border-gray-300 shadow-[0_6px_0_rgba(0,0,0,0.1)] hover:shadow-[0_8px_0_rgba(0,0,0,0.12)] transition-all duration-200"
+  className="flex items-center justify-center gap-5 py-5 rounded-full 
+             shadow-[0_6px_0_rgba(0,0,0,0.15)] 
+             hover:shadow-[0_8px_0_rgba(0,0,0,0.25)] 
+             transition-all duration-200 
+             hover:bg-gray-100 cursor-pointer"
+  style={{
+    padding: '1rem 3rem',      // vertical and horizontal padding
+    fontSize: '1.25rem',       // text size
+  }}
+>
+  <MessageCircle
+    className="w-10 h-10"
     style={{
-      padding: '1rem',   // adjust vertical size (py)
-      fontSize: '1.25rem',  // adjust text size
+      width: '3.5rem',    
+      height: '2rem',
+    }}
+  />
+  <span
+    className="font-inter"
+    style={{
+      fontSize: '1.3rem',
     }}
   >
-    <MessageCircle
-      className="w-10 h-10"
-      style={{
-        width: '2.5rem',    // icon width
-        height: '1.5rem',   // icon height
-      }}
-    />
-    <span
-      className="font-inter"
-      style={{
-        fontSize: '1.5rem',  // text size
-      }}
-    >
-      Messages
-    </span>
-  </button>
+    Messages
+  </span>
+</button>
 </div>
 
 

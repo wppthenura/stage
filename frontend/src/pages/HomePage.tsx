@@ -4,13 +4,13 @@ import Rightbar from "../components/Rightbar/Rightbar";
 
 const HomePage = () => {
   return (
-    <div className="flex bg-gray-50 min-h-screen">
+    <div className="flex bg-gray-50 h-screen overflow-hidden">
       {/* Left Sidebar */}
       <aside
-        className="bg-white"
+        className="bg-white h-screen sticky top-0"
         style={{
-          width: "18rem",   // ⬅️ adjust sidebar width
-          marginLeft: "2rem", // ⬅️ push it right
+          width: "18rem",
+          marginLeft: "2rem",
         }}
       >
         <Sidebar />
@@ -18,23 +18,27 @@ const HomePage = () => {
 
       {/* Feed */}
       <main
-        className="bg-gray-50"
+        className="bg-gray-50 flex-1 flex justify-center h-screen overflow-y-auto"
         style={{
-          width: "38rem",     // ⬅️ feed width
-          marginLeft: "20rem", // ⬅️ spacing from left sidebar
-          marginRight: "4rem", // ⬅️ spacing from right sidebar
+          marginLeft: "2rem",
+          marginRight: "2rem",
+          scrollbarWidth: "none", // Firefox
+          msOverflowStyle: "none", // IE 10+
         }}
       >
-        <Feed />
+        {/* Center column to constrain Feed width */}
+        <div className="w-full max-w-[1050px] flex flex-col items-center">
+          <Feed />
+        </div>
       </main>
 
       {/* Right Sidebar */}
       <aside
-        className="bg-white p-4 lg:block"
+        className="bg-white p-4 h-screen sticky top-0"
         style={{
-          width: "20rem",     // ⬅️ right sidebar width
-          marginLeft: "15rem", // ⬅️ spacing from feed/
-          marginRight: "0rem", // ⬅️ push inward from edge
+          width: "20rem",
+          marginLeft: "2rem",
+          marginRight: "2rem",
         }}
       >
         <Rightbar />
@@ -44,3 +48,5 @@ const HomePage = () => {
 };
 
 export default HomePage;
+
+

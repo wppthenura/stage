@@ -4,15 +4,15 @@ import { UserPlus } from "lucide-react";
 
 const Rightbar = () => {
   const suggestedUsers = [
-    { id: 1, name: "Person 1", color: "bg-yellow-500" },
-    { id: 2, name: "Person 2", color: "bg-blue-500" },
-    { id: 3, name: "Person 3", color: "bg-green-600" },
-    { id: 4, name: "Person 4", color: "bg-lime-400" },
-    { id: 5, name: "Person 5", color: "bg-purple-600" },
+    { id: 1, name: "Person 1", color: "bg-yellow-500", reason: "Because this account follows them" },
+    { id: 2, name: "Person 2", color: "bg-blue-500", reason: "Suggested for you" },
+    { id: 3, name: "Person 3", color: "bg-green-600", reason: "Viewed your profile" },
+    { id: 4, name: "Person 4", color: "bg-lime-400", reason: "Liked your posts" },
+    { id: 5, name: "Person 5", color: "bg-purple-600", reason: "Actively posting" },
   ];
 
   const popularPosts = [
-    "https://placekitten.com/200/200",
+    "https://picsum.photos/200/200?5",
     "https://placebear.com/200/200",
     "https://picsum.photos/200/200?1",
     "https://picsum.photos/200/200?2",
@@ -20,7 +20,6 @@ const Rightbar = () => {
     "https://picsum.photos/200/200?4",
   ];
 
-  // 🔑 Shared container style (same as Post.tsx)
   const cardStyle: React.CSSProperties = {
     backgroundColor: "#fff",
     borderRadius: "10px",
@@ -34,101 +33,148 @@ const Rightbar = () => {
   };
 
   return (
-    <div>
-      {/* ✅ Profile Section (kept simpler) */}
-      <div
-        style={{
-          ...cardStyle,
-          flexDirection: "row",
-          alignItems: "center",
-          gap: "12px",
-          marginTop: "0", // first card flush at top
-        }}
-      >
-        <img
-          src={myPic}
-          alt="Profile"
-          style={{
-            width: "3rem",
-            height: "3rem",
-            borderRadius: "50%",
-            objectFit: "cover",
-            border: "1px solid #e5e7eb",
-          }}
-        />
-        <div>
-          <h2 style={{ fontWeight: 600, color: "#1f2937" }}>Pulindu Thenura</h2>
-          <p style={{ fontSize: "14px", color: "#6b7280" }}>pulindu.thenura</p>
-        </div>
-      </div>
-
-      {/* ✅ Suggested for you Section */}
-      <div style={cardStyle}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        height: "100%", // take full height of sidebar
+      }}
+    >
+      {/* ✅ Top content (profile + suggestions) */}
+      <div>
+        {/* Profile */}
         <div
           style={{
             display: "flex",
-            justifyContent: "space-between",
-            marginBottom: "12px",
+            flexDirection: "column",
+            alignItems: "center",
+            textAlign: "center",
+            marginBottom: "30px", // increased for more spacing
           }}
         >
-          <h3 style={{ fontWeight: 600, fontSize: "14px", color: "#1f2937" }}>
-            Suggested for you
-          </h3>
-          <button
+          <img
+            src={myPic}
+            alt="Profile"
             style={{
-              fontSize: "12px",
-              color: "#6b7280",
-              background: "none",
-              border: "none",
-              cursor: "pointer",
+              width: "80px",
+              height: "80px",
+              borderRadius: "50%",
+              marginBottom: "10px",
+            }}
+          />
+          <div style={{ lineHeight: "1" }}>
+            <h2 style={{ fontWeight: 600, color: "#1f2937", margin: 0 }}>
+              Pulindu Thenura
+            </h2>
+            <p style={{ fontSize: "14px", color: "#6b7280", margin: 0 }}>
+              pulindu.thenura
+            </p>
+          </div>
+        </div>
+
+        {/* Suggested for you */}
+        <div style={{ marginBottom: "20px", marginTop: "10px" /* push it down slightly */ }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginBottom: "8px",
             }}
           >
-            See all
-          </button>
-        </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-          {suggestedUsers.map((user) => (
-            <div
-              key={user.id}
+            <h3 style={{ fontWeight: 600, fontSize: "14px", color: "#1f2937" }}>
+              Suggested for you
+            </h3>
+            <button
               style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                padding: "4px",
-                borderRadius: "8px",
+                fontSize: "12px",
+                color: "#6b7280",
+                background: "none",
+                border: "none",
                 cursor: "pointer",
               }}
             >
-              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                <div
-                  className={`w-[2rem] h-[2rem] rounded-full ${user.color}`}
-                  style={{
-                    width: "32px",
-                    height: "32px",
-                    borderRadius: "50%",
-                  }}
-                />
-                <p style={{ fontWeight: 500, fontSize: "14px", color: "#1f2937" }}>
-                  {user.name}
-                </p>
-              </div>
-              <button
+              See all
+            </button>
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+            {suggestedUsers.map((user) => (
+              <div
+                key={user.id}
                 style={{
-                  border: "none",
-                  background: "none",
-                  cursor: "pointer",
-                  padding: "4px",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  padding: "2px 0",
                 }}
               >
-                <UserPlus style={{ width: "16px", height: "16px", color: "#4b5563" }} />
-              </button>
-            </div>
-          ))}
+                <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                  {/* Circular frame like Post.tsx */}
+                  <div
+                    style={{
+                      width: "36px",
+                      height: "36px",
+                      borderRadius: "50%",
+                      backgroundColor: "#fff",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                      overflow: "hidden",
+                    }}
+                  >
+                    <div
+                      className={`${user.color}`}
+                      style={{
+                        width: "30px",
+                        height: "30px",
+                        borderRadius: "50%",
+                      }}
+                    />
+                  </div>
+
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <span style={{ fontWeight: 500, fontSize: "14px", color: "#1f2937" }}>
+                      {user.name}
+                    </span>
+                    <span
+                      style={{
+                        fontSize: "12px",
+                        color: "#6b7280",
+                        lineHeight: "1.2",
+                      }}
+                    >
+                      {user.reason}
+                    </span>
+                  </div>
+                </div>
+
+                <button
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "4px",
+                    border: "none",
+                    background: "none",
+                    cursor: "pointer",
+                    fontSize: "13px",
+                    fontWeight: 600,
+                    color: "#254CAF",
+                  }}
+                >
+                  <UserPlus style={{ width: "16px", height: "16px" }} />
+                  Follow
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* ✅ Popular Posts Section */}
-      <div style={cardStyle}>
+      <div style={{ flexGrow: 0.03 }} />
+
+      {/* ✅ Popular posts (sticks to bottom) */}
+      <div style={{ marginTop: "auto", marginBottom: "20px", ...cardStyle }}>
         <h3
           style={{
             fontWeight: 600,
