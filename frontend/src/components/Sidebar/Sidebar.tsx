@@ -28,7 +28,7 @@ export default function Sidebar() {
           left: '3rem', // adjust horizontal
         }}
       >
-        <nav className="flex flex-col items-start gap-[2rem] text-[2rem]">
+        <nav className="flex flex-col items-start gap-[2rem] text-[1.7rem]">
           <Item icon={Home} label="Home" />
           <Item icon={Search} label="Search" />
           <Item icon={Bell} label="Notification" />
@@ -41,40 +41,34 @@ export default function Sidebar() {
 <div
   className="absolute"
   style={{
-    top: '35rem',       // vertical position — change to move up/down
-    left: '2rem',       // horizontal position — adjust for wider button
-    width: '18rem',     // increased width
+    top: '35rem',       // vertical position
+    left: '2rem',       // horizontal position
+    width: '18rem',     // same width
   }}
 >
   <button
-  className="flex items-center justify-center gap-5 py-5 rounded-full 
-             shadow-[0_6px_0_rgba(0,0,0,0.15)] 
-             hover:shadow-[0_8px_0_rgba(0,0,0,0.25)] 
-             transition-all duration-200 
-             hover:bg-gray-100 cursor-pointer"
-  style={{
-    padding: '1rem 3rem',      // vertical and horizontal padding
-    fontSize: '1.25rem',       // text size
-  }}
->
-  <MessageCircle
-    className="w-10 h-10"
+    className="flex items-center justify-center gap-5 py-5 rounded-full 
+               bg-white shadow-[0_4px_12px_rgba(0,0,0,0.15)] 
+               hover:shadow-[0_8px_20px_rgba(0,0,0,0.25)] 
+               transform hover:scale-105 
+               transition-all duration-200 ease-out 
+               cursor-pointer"
     style={{
-      width: '3.5rem',    
-      height: '2rem',
-    }}
-  />
-  <span
-    className="font-inter"
-    style={{
-      fontSize: '1.3rem',
+      padding: '1rem 3rem',   // same padding
+      fontSize: '1.25rem',    // same font size
+      border: 'none',         // no outline
     }}
   >
-    Messages
-  </span>
-</button>
+    <span
+      className="font-poppins text-gray-800"
+      style={{
+        fontSize: '1.5rem',
+      }}
+    >
+      Messages
+    </span>
+  </button>
 </div>
-
 
       {/* Footer */}
       <div
