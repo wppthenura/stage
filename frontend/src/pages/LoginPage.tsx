@@ -4,86 +4,27 @@ export default function LoginPage() {
   return (
     <div className="h-screen w-full relative bg-gray-50 overflow-hidden">
       {/* ================= LEFT SIDE BOXES ================= */}
-      {/* Box 1 */}
-      <div
-        className="absolute flex items-center justify-center bg-[#d9c76e] rounded-lg shadow-lg"
-        style={{
-          top: "5rem", // vertical move
-          left: "5rem", // horizontal move
-          width: "12rem", // box width
-          height: "12rem", // box height
-        }}
-      >
-        <span
-          style={{
-            fontSize: "2rem",
-            fontWeight: "bold",
-          }}
-        >
-          Lets
-        </span>
-        <span
-          className="absolute -rotate-90 tracking-wider"
-          style={{
-            top: "50%",
-            left: "-10rem",
-            fontSize: "0.9rem",
-          }}
-        >
-          Make
-        </span>
-      </div>
-
-      {/* Box 2 */}
-      <div
-        className="absolute flex items-center justify-center bg-[#d89a9a] rounded-lg shadow-lg"
-        style={{
-          top: "20rem",
-          left: "6rem",
-          width: "13rem",
-          height: "12rem",
-        }}
-      >
-        <span
-          style={{
-            fontSize: "2rem",
-            fontWeight: "bold",
-          }}
-        >
-          Walk
-        </span>
-        <span
-          className="absolute -rotate-90 tracking-wider"
-          style={{
-            top: "50%",
-            left: "-3rem",
-            fontSize: "0.9rem",
-          }}
-        >
-          You
-        </span>
-      </div>
 
       {/* Box 3 */}
       <div
         className="absolute flex items-center justify-center bg-[#c4c4c4] rounded-lg shadow-lg"
         style={{
-          top: "35rem",
-          left: "8rem",
-          width: "18rem",
+          top: "31rem",
+          left: "17rem",
+          width: "22rem",
           height: "11rem",
         }}
       >
         <span
           style={{
-            fontSize: "2rem",
+            fontSize: "5rem",
             fontWeight: "bold",
           }}
         >
           Different
         </span>
         <span
-          className="absolute rotate-90 tracking-wider"
+          className="absolute rotate-270 tracking-wider"
           style={{
             top: "50%",
             right: "-3rem",
@@ -94,13 +35,73 @@ export default function LoginPage() {
         </span>
       </div>
 
+            {/* Box 2 */}
+      <div
+        className="absolute flex items-center justify-center bg-[#d89a9a] rounded-lg shadow-lg"
+        style={{
+          top: "20rem",
+          left: "32rem",
+          width: "13rem",
+          height: "12rem",
+        }}
+      >
+        <span
+          style={{
+            fontSize: "5rem",
+            fontWeight: "bold",
+          }}
+        >
+          Walk
+        </span>
+        <span
+          className="absolute -rotate-90 tracking-wider"
+          style={{
+            top: "50%",
+            left: "-1.5rem",
+            fontSize: "0.9rem",
+          }}
+        >
+          You
+        </span>
+      </div>
+
+            {/* Box 1 */}
+      <div
+        className="absolute flex items-center justify-center bg-[#d9c76e] rounded-lg shadow-lg"
+        style={{
+          top: "10rem", // vertical move
+          left: "23rem", // horizontal move
+          width: "12rem", // box width
+          height: "12rem", // box height
+        }}
+      >
+        <span
+          style={{
+            fontSize: "5rem",
+            fontWeight: "bold",
+          }}
+        >
+          Lets
+        </span>
+        <span
+          className="absolute -rotate-90 tracking-wider"
+          style={{
+            top: "50%",
+            left: "-1.7rem",
+            fontSize: "0.9rem",
+          }}
+        >
+          Make
+        </span>
+      </div>
+
       {/* ================= RIGHT SIDE LOGIN ================= */}
       {/* Title */}
       <h1
         className="absolute font-light tracking-[0.6rem]"
         style={{
-          top: "8rem",
-          right: "12rem",
+          top: "13rem",
+          right: "30rem",
           fontSize: "3rem",
         }}
       >
@@ -111,10 +112,10 @@ export default function LoginPage() {
       <form
         className="absolute flex flex-col"
         style={{
-          top: "15rem",
-          right: "10rem",
+          top: "20rem",
+          right: "25.5rem",
           width: "22rem",
-          gap: "1.5rem",
+          gap: "0.5rem",
         }}
       >
         {/* Username */}
@@ -156,8 +157,8 @@ export default function LoginPage() {
       <p
         className="absolute text-gray-600 cursor-pointer hover:underline"
         style={{
-          top: "30rem",
-          right: "10rem",
+          top: "30.75rem",
+          right: "32.3rem",
           fontSize: "0.9rem",
         }}
       >
@@ -169,7 +170,7 @@ export default function LoginPage() {
         className="absolute flex items-center"
         style={{
           top: "34rem",
-          right: "10rem",
+          right: "25.47rem",
           width: "22rem",
         }}
       >
@@ -190,8 +191,8 @@ export default function LoginPage() {
       <p
         className="absolute"
         style={{
-          top: "38rem",
-          right: "10rem",
+          top: "35.5rem",
+          right: "30.5rem",
           fontSize: "0.9rem",
         }}
       >
