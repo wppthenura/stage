@@ -143,7 +143,7 @@ export default function LoginPage() {
         {/* Login Button */}
         <button
           type="submit"
-          className="bg-[#2d3ebf] text-white rounded-full shadow-md hover:shadow-2xl hover:translate-y-[-0.15rem] transition-all duration-200"
+          className="bg-[#2d3ebf] text-white rounded-full shadow-md hover:shadow-2xl hover:translate-y-[0.1rem] transition-all duration-200"
           style={{
             padding: "0.9rem",
             fontSize: "1.2rem",
