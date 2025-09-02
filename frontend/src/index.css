@@ -7,3 +7,8 @@ main::-webkit-scrollbar {
   display: none;
 }
 
+/* Hide scrollbar for Firefox */
+main {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
