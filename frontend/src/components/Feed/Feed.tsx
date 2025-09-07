@@ -1,3 +1,4 @@
+// src/components/Feed/Feed.tsx
 import { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabaseClient";
 import Post from "./Post";
@@ -9,10 +10,11 @@ export default function Feed() {
   const getPosts = async () => {
     const { data, error } = await supabase
       .from("posts")
-      .select("id, caption, likes, profiles(username, avatar_url)")
+      .select("id, caption, likes, media_url, created_at, profiles(username, avatar_url)")
       .order("created_at", { ascending: false });
 
     if (!error && data) setPosts(data);
+    if (error) console.error("getPosts error:", error);
   };
 
   useEffect(() => {
@@ -30,6 +32,7 @@ export default function Feed() {
             username={post.profiles?.username || "unknown"}
             likes={post.likes}
             caption={post.caption}
+            media_url={post.media_url}
           />
         ))}
       </div>
