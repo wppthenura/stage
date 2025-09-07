@@ -31,18 +31,7 @@ const HomePage = () => {
           <Feed />
         </div>
       </main>
-
-      {/* Right Sidebar */}
-      <aside
-        className="bg-white p-4 h-screen sticky top-0"
-        style={{
-          width: "20rem",
-          marginLeft: "2rem",
-          marginRight: "2rem",
-        }}
-      >
         <Rightbar />
-      </aside>
     </div>
   );
 };

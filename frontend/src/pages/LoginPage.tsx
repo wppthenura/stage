@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { signInWithEmail, signInWithGoogle } from "../utils/authHelpers";
 
 export default function LoginPage() {
@@ -164,16 +165,13 @@ export default function LoginPage() {
         Log in with Google
       </button>
 
-      {/* Signup */}
-      <p
-        className="absolute"
-        style={{ top: "39rem", right: "30.5rem", fontSize: "0.9rem" }}
-      >
-        Don’t have an account?{" "}
-        <span className="text-[#2d3ebf] font-semibold cursor-pointer hover:underline">
-          Sign up
-        </span>
-      </p>
+      <p className="absolute" style={{ top: "39rem", right: "30.5rem", fontSize: "0.9rem" }}>
+  Don’t have an account?{" "}
+  <Link to="/" className="text-[#2d3ebf] font-semibold cursor-pointer hover:underline">
+    Sign up
+  </Link>
+</p>
+
 
       {/* Footer */}
       <div

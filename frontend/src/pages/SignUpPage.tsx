@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { signUpWithEmail, signInWithGoogle } from "../utils/authHelpers";
 
 export default function SignUpPage() {
@@ -9,33 +10,46 @@ export default function SignUpPage() {
   const [loading, setLoading] = useState(false);
 
   async function handleSignUp(e: React.FormEvent) {
-    e.preventDefault();
-    setErrorMsg("");
-    setLoading(true);
+  e.preventDefault();
+  setErrorMsg("");
+  setLoading(true);
 
-    if (password !== confirmPassword) {
-      setErrorMsg("Passwords do not match");
-      setLoading(false);
-      return;
-    }
-
-    const { error } = await signUpWithEmail(email, password);
-    if (error) {
-      setErrorMsg(error.message);
-    } else {
-      console.log("✅ Sign up successful (check email if confirmations enabled)");
-      // TODO: redirect to Home page
-    }
-
+  if (password !== confirmPassword) {
+    setErrorMsg("Passwords do not match");
     setLoading(false);
+    return;
   }
+
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+  });
+
+  if (error) {
+    setErrorMsg(error.message);
+  } else {
+    console.log("✅ Sign up successful", data);
+    // Redirect to HomePage
+    navigate("/login"); // using useNavigate from react-router-dom
+  }
+
+  setLoading(false);
+}
 
   async function handleGoogleSignUp() {
-    const { error } = await signInWithGoogle();
-    if (error) {
-      setErrorMsg(error.message);
-    }
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+  });
+
+  if (error) {
+    setErrorMsg(error.message);
+  } else {
+    console.log("✅ Google sign in success", data);
+    // Supabase automatically creates a user entry for Google
+    // You can redirect to HomePage
   }
+}
+
 
   return (
     <div className="h-screen w-full relative bg-gray-50 overflow-hidden">
@@ -170,16 +184,14 @@ export default function SignUpPage() {
         Sign up with Google
       </button>
 
-      {/* Already have account */}
-      <p
-        className="absolute"
-        style={{ top: "44.5rem", right: "30.5rem", fontSize: "0.9rem" }}
-      >
-        Already have an account?{" "}
-        <span className="text-[#2d3ebf] font-semibold cursor-pointer hover:underline">
-          Log in
-        </span>
-      </p>
+      {/* Already have account? */}
+<div className="absolute" style={{ top: "44.5rem", right: "30.5rem", fontSize: "0.9rem" }}>
+  Already have an account?{" "}
+  <Link to="/login" className="text-[#2d3ebf] font-semibold cursor-pointer hover:underline">
+    Log in
+  </Link>
+</div>
+
 
       {/* Footer */}
       <div

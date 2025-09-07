@@ -1,24 +1,73 @@
-import React from "react";
-import myPic from "../../assets/my.jpeg";
+import React, { useEffect, useState } from "react";
+import { supabase } from "../../lib/supabaseClient";
 import { UserPlus } from "lucide-react";
 
-const Rightbar = () => {
-  const suggestedUsers = [
-    { id: 1, name: "Person 1", color: "bg-yellow-500", reason: "Because this account follows them" },
-    { id: 2, name: "Person 2", color: "bg-blue-500", reason: "Suggested for you" },
-    { id: 3, name: "Person 3", color: "bg-green-600", reason: "Viewed your profile" },
-    { id: 4, name: "Person 4", color: "bg-lime-400", reason: "Liked your posts" },
-    { id: 5, name: "Person 5", color: "bg-purple-600", reason: "Actively posting" },
-  ];
+interface Profile {
+  id: string;
+  username: string | null;
+  avatar_url: string | null;
+  email: string | null;
+}
 
-  const popularPosts = [
-    "https://picsum.photos/200/200?5",
-    "https://placebear.com/200/200",
-    "https://picsum.photos/200/200?1",
-    "https://picsum.photos/200/200?2",
-    "https://picsum.photos/200/200?3",
-    "https://picsum.photos/200/200?4",
-  ];
+interface Post {
+  id: string;
+  caption: string;
+}
+
+const Rightbar = () => {
+  const [currentUser, setCurrentUser] = useState<Profile | null>(null);
+  const [suggestedUsers, setSuggestedUsers] = useState<Profile[]>([]);
+  const [popularPosts, setPopularPosts] = useState<Post[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      // ✅ Get active session
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
+
+      const userId = session.user.id;
+
+      // ✅ Fetch current user profile
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("id, username, avatar_url")
+        .eq("id", userId)
+        .single();
+
+      setCurrentUser({
+        id: userId,
+        username: profile?.username || null,
+        avatar_url: profile?.avatar_url || null,
+        email: session.user.email ?? null,
+      });
+
+      // ✅ Fetch suggested users
+      const { data: users } = await supabase
+        .from("profiles")
+        .select("id, username, avatar_url")
+        .neq("id", userId)
+        .limit(5);
+
+      if (users) {
+        const enriched = users.map((u) => ({
+          ...u,
+          email: null, // not needed for suggested users
+        }));
+        setSuggestedUsers(enriched);
+      }
+
+      // ✅ Fetch popular posts
+      const { data: posts } = await supabase
+        .from("posts")
+        .select("id, caption")
+        .order("likes", { ascending: false })
+        .limit(6);
+
+      if (posts) setPopularPosts(posts);
+    };
+
+    fetchData();
+  }, []);
 
   const cardStyle: React.CSSProperties = {
     backgroundColor: "#fff",
@@ -33,27 +82,20 @@ const Rightbar = () => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        height: "100%", // take full height of sidebar
-      }}
-    >
-      {/* ✅ Top content (profile + suggestions) */}
-      <div>
-        {/* Profile */}
+    <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+      {/* ✅ Top: current user's profile */}
+      {currentUser && (
         <div
           style={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             textAlign: "center",
-            marginBottom: "30px", // increased for more spacing
+            marginBottom: "30px",
           }}
         >
           <img
-            src={myPic}
+            src={currentUser.avatar_url || "https://via.placeholder.com/80"}
             alt="Profile"
             style={{
               width: "80px",
@@ -64,116 +106,117 @@ const Rightbar = () => {
           />
           <div style={{ lineHeight: "1" }}>
             <h2 style={{ fontWeight: 600, color: "#1f2937", margin: 0 }}>
-              Pulindu Thenura
+              {currentUser.username || currentUser.email}
             </h2>
             <p style={{ fontSize: "14px", color: "#6b7280", margin: 0 }}>
-              pulindu.thenura
+              {currentUser.email}
             </p>
           </div>
         </div>
+      )}
 
-        {/* Suggested for you */}
-        <div style={{ marginBottom: "20px", marginTop: "10px" /* push it down slightly */ }}>
-          <div
+      {/* ✅ Suggested users */}
+      <div style={{ marginBottom: "20px", marginTop: "10px" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginBottom: "8px",
+          }}
+        >
+          <h3 style={{ fontWeight: 600, fontSize: "14px", color: "#1f2937" }}>
+            Suggested for you
+          </h3>
+          <button
             style={{
-              display: "flex",
-              justifyContent: "space-between",
-              marginBottom: "8px",
+              fontSize: "12px",
+              color: "#6b7280",
+              background: "none",
+              border: "none",
+              cursor: "pointer",
             }}
           >
-            <h3 style={{ fontWeight: 600, fontSize: "14px", color: "#1f2937" }}>
-              Suggested for you
-            </h3>
-            <button
+            See all
+          </button>
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+          {suggestedUsers.map((user) => (
+            <div
+              key={user.id}
               style={{
-                fontSize: "12px",
-                color: "#6b7280",
-                background: "none",
-                border: "none",
-                cursor: "pointer",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                padding: "2px 0",
               }}
             >
-              See all
-            </button>
-          </div>
-
-          <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-            {suggestedUsers.map((user) => (
-              <div
-                key={user.id}
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  padding: "2px 0",
-                }}
-              >
-                <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                  {/* Circular frame like Post.tsx */}
-                  <div
-                    style={{
-                      width: "36px",
-                      height: "36px",
-                      borderRadius: "50%",
-                      backgroundColor: "#fff",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-                      overflow: "hidden",
-                    }}
-                  >
-                    <div
-                      className={`${user.color}`}
-                      style={{
-                        width: "30px",
-                        height: "30px",
-                        borderRadius: "50%",
-                      }}
-                    />
-                  </div>
-
-                  <div style={{ display: "flex", flexDirection: "column" }}>
-                    <span style={{ fontWeight: 500, fontSize: "14px", color: "#1f2937" }}>
-                      {user.name}
-                    </span>
-                    <span
-                      style={{
-                        fontSize: "12px",
-                        color: "#6b7280",
-                        lineHeight: "1.2",
-                      }}
-                    >
-                      {user.reason}
-                    </span>
-                  </div>
-                </div>
-
-                <button
+              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                {/* Avatar bubble */}
+                <div
                   style={{
+                    width: "36px",
+                    height: "36px",
+                    borderRadius: "50%",
+                    backgroundColor: "#fff",
                     display: "flex",
+                    justifyContent: "center",
                     alignItems: "center",
-                    gap: "4px",
-                    border: "none",
-                    background: "none",
-                    cursor: "pointer",
-                    fontSize: "13px",
-                    fontWeight: 600,
-                    color: "#254CAF",
+                    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                    overflow: "hidden",
                   }}
                 >
-                  <UserPlus style={{ width: "16px", height: "16px" }} />
-                  Follow
-                </button>
+                  <img
+                    src={user.avatar_url || "https://via.placeholder.com/30"}
+                    alt={user.username || "user"}
+                    style={{
+                      width: "30px",
+                      height: "30px",
+                      borderRadius: "50%",
+                    }}
+                  />
+                </div>
+
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <span style={{ fontWeight: 500, fontSize: "14px", color: "#1f2937" }}>
+                    {user.username || "Anonymous"}
+                  </span>
+                  <span
+                    style={{
+                      fontSize: "12px",
+                      color: "#6b7280",
+                      lineHeight: "1.2",
+                    }}
+                  >
+                    Suggested for you
+                  </span>
+                </div>
               </div>
-            ))}
-          </div>
+
+              <button
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "4px",
+                  border: "none",
+                  background: "none",
+                  cursor: "pointer",
+                  fontSize: "13px",
+                  fontWeight: 600,
+                  color: "#254CAF",
+                }}
+              >
+                <UserPlus style={{ width: "16px", height: "16px" }} />
+                Follow
+              </button>
+            </div>
+          ))}
         </div>
       </div>
 
       <div style={{ flexGrow: 0.03 }} />
 
-      {/* ✅ Popular posts (sticks to bottom) */}
+      {/* ✅ Popular posts */}
       <div style={{ marginTop: "auto", marginBottom: "20px", ...cardStyle }}>
         <h3
           style={{
@@ -192,32 +235,25 @@ const Rightbar = () => {
             gap: "12px",
           }}
         >
-          {popularPosts.map((post, idx) => (
-            <img
-              key={idx}
-              src={post}
-              alt={`Post ${idx}`}
+          {popularPosts.map((post) => (
+            <div
+              key={post.id}
               style={{
                 width: "100%",
                 height: "96px",
-                objectFit: "cover",
+                backgroundColor: "#f3f4f6",
                 borderRadius: "8px",
                 border: "1px solid #e5e7eb",
                 boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
-                cursor: "pointer",
-                transition: "transform 0.2s ease, box-shadow 0.2s ease",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "12px",
+                color: "#6b7280",
               }}
-              onMouseEnter={(e) =>
-                ((e.currentTarget.style.transform = "scale(1.05)"),
-                (e.currentTarget.style.boxShadow =
-                  "0 4px 8px rgba(0,0,0,0.15)"))
-              }
-              onMouseLeave={(e) =>
-                ((e.currentTarget.style.transform = "scale(1)"),
-                (e.currentTarget.style.boxShadow =
-                  "0 2px 4px rgba(0,0,0,0.05)"))
-              }
-            />
+            >
+              {post.caption || "No caption"}
+            </div>
           ))}
         </div>
       </div>
