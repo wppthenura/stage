@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabaseClient";
 import { UserPlus } from "lucide-react";
+import { useNavigate } from "react-router-dom"; // ✅ Added
 
 interface Profile {
   id: string;
@@ -18,6 +19,7 @@ const Rightbar = () => {
   const [currentUser, setCurrentUser] = useState<Profile | null>(null);
   const [suggestedUsers, setSuggestedUsers] = useState<Profile[]>([]);
   const [popularPosts, setPopularPosts] = useState<Post[]>([]);
+  const navigate = useNavigate(); // ✅ Added
 
   useEffect(() => {
     const fetchData = async () => {
@@ -83,15 +85,17 @@ const Rightbar = () => {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
-      {/* ✅ Top: current user's profile */}
+      {/* ✅ Top: current user's profile (clickable) */}
       {currentUser && (
         <div
+          onClick={() => navigate("/profile")} // ✅ Navigate to ProfilePage
           style={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             textAlign: "center",
             marginBottom: "30px",
+            cursor: "pointer", // ✅ Indicate clickable
           }}
         >
           <img
