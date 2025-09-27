@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabaseClient";
 import { UserPlus } from "lucide-react";
-import { useNavigate } from "react-router-dom"; // ✅ Added
+import { useNavigate } from "react-router-dom";
 
 interface Profile {
   id: string;
@@ -12,24 +12,24 @@ interface Profile {
 
 interface Post {
   id: string;
-  caption: string;
+  media_url: string | null;
+  likes: number;
+  created_at: string;
 }
 
 const Rightbar = () => {
   const [currentUser, setCurrentUser] = useState<Profile | null>(null);
   const [suggestedUsers, setSuggestedUsers] = useState<Profile[]>([]);
   const [popularPosts, setPopularPosts] = useState<Post[]>([]);
-  const navigate = useNavigate(); // ✅ Added
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
-      // ✅ Get active session
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) return;
 
       const userId = session.user.id;
 
-      // ✅ Fetch current user profile
       const { data: profile } = await supabase
         .from("profiles")
         .select("id, username, avatar_url")
@@ -43,7 +43,6 @@ const Rightbar = () => {
         email: session.user.email ?? null,
       });
 
-      // ✅ Fetch suggested users
       const { data: users } = await supabase
         .from("profiles")
         .select("id, username, avatar_url")
@@ -51,17 +50,17 @@ const Rightbar = () => {
         .limit(5);
 
       if (users) {
-        const enriched = users.map((u) => ({
-          ...u,
-          email: null, // not needed for suggested users
-        }));
+        const enriched = users.map((u) => ({ ...u, email: null }));
         setSuggestedUsers(enriched);
       }
 
-      // ✅ Fetch popular posts
+      const oneWeekAgo = new Date();
+      oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+
       const { data: posts } = await supabase
         .from("posts")
-        .select("id, caption")
+        .select("id, media_url, likes, created_at")
+        .gte("created_at", oneWeekAgo.toISOString())
         .order("likes", { ascending: false })
         .limit(6);
 
@@ -84,18 +83,32 @@ const Rightbar = () => {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
-      {/* ✅ Top: current user's profile (clickable) */}
+    <div
+      style={{
+        width: "320px", // ✅ fixed width
+        minWidth: "320px", // ✅ prevents shrinking
+        maxWidth: "320px", // ✅ prevents expanding
+        display: "flex",
+        flexDirection: "column",
+        height: "100vh",
+        position: "sticky",
+        top: 0,
+        padding: "20px",
+        boxSizing: "border-box",
+        backgroundColor: "#fafafa",
+      }}
+    >
+      {/* ✅ Top: current user's profile */}
       {currentUser && (
         <div
-          onClick={() => navigate("/profile")} // ✅ Navigate to ProfilePage
+          onClick={() => navigate("/profile")}
           style={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             textAlign: "center",
             marginBottom: "30px",
-            cursor: "pointer", // ✅ Indicate clickable
+            cursor: "pointer",
           }}
         >
           <img
@@ -156,7 +169,6 @@ const Rightbar = () => {
               }}
             >
               <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                {/* Avatar bubble */}
                 <div
                   style={{
                     width: "36px",
@@ -220,7 +232,7 @@ const Rightbar = () => {
 
       <div style={{ flexGrow: 0.03 }} />
 
-      {/* ✅ Popular posts */}
+      {/* ✅ Popular posts (fixed size grid, images fit inside) */}
       <div style={{ marginTop: "auto", marginBottom: "20px", ...cardStyle }}>
         <h3
           style={{
@@ -230,12 +242,12 @@ const Rightbar = () => {
             marginBottom: "12px",
           }}
         >
-          Popular posts
+          Popular posts this week
         </h3>
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "1fr 1fr",
+            gridTemplateColumns: "repeat(2, 1fr)",
             gap: "12px",
           }}
         >
@@ -244,19 +256,24 @@ const Rightbar = () => {
               key={post.id}
               style={{
                 width: "100%",
-                height: "96px",
-                backgroundColor: "#f3f4f6",
+                height: "100px",
                 borderRadius: "8px",
+                overflow: "hidden",
                 border: "1px solid #e5e7eb",
                 boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: "12px",
-                color: "#6b7280",
+                backgroundColor: "#f3f4f6",
               }}
             >
-              {post.caption || "No caption"}
+              <img
+                src={post.media_url || "https://via.placeholder.com/150"}
+                alt="Popular Post"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  display: "block",
+                }}
+              />
             </div>
           ))}
         </div>
