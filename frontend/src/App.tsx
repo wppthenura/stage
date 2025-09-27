@@ -3,6 +3,7 @@ import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
 import ProfilePage from "./pages/ProfilePage";
+import SearchPage from "./pages/Search";
 import { PrivateRoute, PublicRoute } from "./routes/AuthRoutes"; // ✅ must match exports
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
       <Route path="/login" element={<PublicRoute><LoginPage /></PublicRoute>} />
       <Route path="/home" element={<PrivateRoute><HomePage /></PrivateRoute>} />
       <Route path="/profile" element={<ProfilePage />} />
+      <Route path="/search" element={<SearchPage />} /> 
     </Routes>
   );
 }
